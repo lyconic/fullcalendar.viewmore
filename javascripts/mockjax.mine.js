@@ -96,7 +96,7 @@ var mockjax = {
     $.mockjax({ //get initial events
       url: '/test/get-events',
       dataType: 'json',
-      responseTime: 1000,
+      responseTime: 500,
       responseText: mockjax.events
     });
   }

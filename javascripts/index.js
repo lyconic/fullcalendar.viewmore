@@ -9,16 +9,3 @@ myCalendar = (function(){
     self.calendar.loadCalendar();
   }  
 })();
-
-(function (I) {
-  var public = {};
-
-
-  
-  public.someFunction = function () {
-    //console.log('in some public function');
-  }    
-  
-  $.extend(I, public);
-  
-})(myCalendar);

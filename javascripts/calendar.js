@@ -1,3 +1,8 @@
+// "View More Button" Plugin for FullCalendar
+// Version 0.01 Alpha
+// Written by Scott Greenfield, A.K.A. jquery.fun@gmail.com
+// Updates and tutorial *will* be found here:  http://www.lyconic.com
+
 Calendar = Class.create((function(){
   var instance = {
     options: {
@@ -49,7 +54,6 @@ Calendar = Class.create((function(){
       editable: true,      
       eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc){
         resetEventsRangeCounts();
-        return true;
       },
       eventResize: function(event){
         resetEventsRangeCounts();
@@ -124,8 +128,6 @@ Calendar = Class.create((function(){
   }
   
   function resetEventsRangeCounts(){
-      console.log('reset event counts');
-
     $('.fc-view-month td').each(function(i){
         $(this).find('.events-view-more').remove();
 
@@ -133,7 +135,6 @@ Calendar = Class.create((function(){
         jQuery.removeData(this, "appointments");
     });
   }
-
   
   function viewMore(day){
     var appointments = day.data('appointments'),

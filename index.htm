@@ -1,43 +1,56 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>Fullcalendar - View More Link Example</title>
-
-<link href="stylesheets/formbubble.css?1291876744" media="screen" rel="stylesheet" type="text/css" />
-<link href="stylesheets/fullcalendar.css?1291876744" media="screen" rel="stylesheet" type="text/css" />
-<link href="stylesheets/appointments.css?1292877025" media="screen" rel="stylesheet" type="text/css" />
-
-<script src="javascripts/lib/date.js" type="text/javascript"></script>
-
-<script src="javascripts/lib/jquery.js" type="text/javascript"></script>
-
-<script src="javascripts/lib/prototype/prototype.js" type="text/javascript"></script>
-<script src="javascripts/lib/prototype/lang/enumerable.js" type="text/javascript"></script>
-<script src="javascripts/lib/prototype/lang/object.js" type="text/javascript"></script>
-<script src="javascripts/lib/prototype/lang/array.js" type="text/javascript"></script>
-<script src="javascripts/lib/prototype/lang/class.js" type="text/javascript"></script>
-<script src="javascripts/lib/prototype/lang/enumerable_ext.js" type="text/javascript"></script>
-<script src="javascripts/lib/prototype/lang/date.js" type="text/javascript"></script>
-<script src="javascripts/lib/prototype/lang/range.js" type="text/javascript"></script>
-
-<script src="javascripts/ui/fullcalendar.js" type="text/javascript"></script>
-<script src="javascripts/ui/jquery.formbubble.js" type="text/javascript"></script>
-
-<script src="javascripts/jquery.mockjax.js" type="text/javascript"></script>
-<script src="javascripts/mockjax.mine.js" type="text/javascript"></script>
-
-<script src="javascripts/calendar.js" type="text/javascript"></script>
-<script src="javascripts/index.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-  $(document).ready(myCalendar);
-</script>
-
-</head>
-<body>
-  <div id='calendar'></div>
-</body>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>Fullcalendar - View More Link Example</title>
+  
+  <link href="stylesheets/formbubble.css?1291876744" media="screen" rel="stylesheet" type="text/css" />
+  <link href="stylesheets/fullcalendar.css?1291876744" media="screen" rel="stylesheet" type="text/css" />
+  <link href="stylesheets/appointments.css?1292877025" media="screen" rel="stylesheet" type="text/css" />
+  
+  <script src="javascripts/lib/date.js" type="text/javascript"></script>
+  
+  <script src="javascripts/lib/jquery.js" type="text/javascript"></script>
+  <script src="javascripts/ui/jquery-ui-custom.js" type="text/javascript"></script>
+  
+  <script src="javascripts/lib/prototype/prototype.js" type="text/javascript"></script>
+  <script src="javascripts/lib/prototype/lang/enumerable.js" type="text/javascript"></script>
+  <script src="javascripts/lib/prototype/lang/object.js" type="text/javascript"></script>
+  <script src="javascripts/lib/prototype/lang/array.js" type="text/javascript"></script>
+  <script src="javascripts/lib/prototype/lang/class.js" type="text/javascript"></script>
+  <script src="javascripts/lib/prototype/lang/enumerable_ext.js" type="text/javascript"></script>
+  <script src="javascripts/lib/prototype/lang/date.js" type="text/javascript"></script>
+  <script src="javascripts/lib/prototype/lang/range.js" type="text/javascript"></script>
+  
+  <script src="javascripts/ui/fullcalendar.js" type="text/javascript"></script>
+  <script src="javascripts/ui/jquery.formbubble.js" type="text/javascript"></script>
+  
+  <script src="javascripts/jquery.mockjax.js" type="text/javascript"></script>
+  <script src="javascripts/mockjax.mine.js" type="text/javascript"></script>
+  
+  <script src="javascripts/calendar.js" type="text/javascript"></script>
+  <script src="javascripts/index.js" type="text/javascript"></script>
+  
+  <script type="text/javascript">
+    $(document).ready(myCalendar);
+  </script>
+  
+  </head>
+  <body>
+    <h2>"View More Button" Plugin for <a href="http://arshaw.com/fullcalendar/">FullCalendar</a></h2>
+    <p>
+      This code was written by <a href="mailto:jquery.fun@gmail.com">Scott Greenfield</a> of <a href="http://lyconic.com/about">Lyconic</a> to address issue <a href="http://code.google.com/p/fullcalendar/issues/detail?id=304">#304</a>.
+    </p>
+    <p>
+      I was looking at the list of issues for FullCalendar on Google Code, and I realized that, out of neccesity for a company project, I had solved several of them.  Anyway, I figured I'd start with the most "starred" enhancement, the "view more" button.
+    </p>
+    <p>
+      The reason there are some additional dependencies (such as a subset of the Prototype library), is only because I haven't yet had time to reduce this to a pure jQuery plugin.
+    </p>
+    <p>
+      Tutorial and refactored code coming soon!
+    </p>
+    <div id='calendar'></div>
+  </body>
 </html>
-
