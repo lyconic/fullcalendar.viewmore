@@ -111,18 +111,8 @@ function Calendar (context) {
   function doEventsRangeCount(event){
     var eventStart = event._start,
         eventEnd = event._end || event._start,
-        dateRange = expandDateRange(eventStart, eventEnd);
-
-        console.log(' ');        
-        console.log('----------------------------------------------------------------------------------------------------------------------------------------------------');
-        console.group('event: ', event);
-        console.log(' ');
-        console.log('dateRange: ', dateRange);
-        console.groupEnd();
-        console.log('----------------------------------------------------------------------------------------------------------------------------------------------------');
-
-    
-    var eventElement = event.element;
+        dateRange = expandDateRange(eventStart, eventEnd),
+        eventElement = event.element;
     
     $(dateRange).each(function(i){
         var td = getCellFromDate($.fullCalendar.formatDate(dateRange[i],'MM/dd/yy')),
@@ -137,12 +127,11 @@ function Calendar (context) {
   
   function expandDateRange (start, end) {
     var value = new Date(start.getFullYear(), start.getMonth(), start.getDate()),
-        values = [ new Date(value) ];
+        values = [];
 
     end = new Date(end.getFullYear(), end.getMonth(), end.getDate());
-    
-    //while (value <= end) {
-    while (value < end) {
+
+    while (value <= end) {
       values.push(value);
       value = new Date(value.getFullYear(), value.getMonth(), value.getDate() + 1);
     }
