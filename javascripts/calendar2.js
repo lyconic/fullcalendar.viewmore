@@ -2,45 +2,44 @@
 // Version 0.01 Alpha
 // Written by Scott Greenfield, A.K.A. jquery.fun@gmail.com
 // Updates and tutorial *will* be found here:  http://www.lyconic.com
-
-Calendar = Class.create((function(){
-  var instance = {
-    options: {
-      context: undefined,
-      maxEvents: {
-        monthView: 4
-      }
+function Calendar (context) {
+  if (!(this instanceof arguments.callee)) return new arguments.callee(context);
+  this.options = {
+    context: context,
+    maxEvents: {
+      monthView: 4
     }
-  };
+  }
+}
 
-  instance.initialize = function (context) {
-    instance.options.context = context;
-  };
+(function ($, undefined) {
   
-  instance.observers = function () {
-    var selector = instance.options.context;
+  this.observers = function () {
+    var selector = this.options.context,
+        self = this;
     
-    $(document).mouseup(function(e){  //deselect when clicking outside of calendar or formbubble
-      var target = $(e.target)
-      var isFormBubble = target.parents('.form-bubble').length || target.hasClass('form-bubble');
-      var isInsideOfCalendar = target.parents('.fc-content').length || target.hasClass('fc-content');
+    $(document).mouseup(function (e) {  //deselect when clicking outside of calendar or formbubble
+      var $target = $(e.target),
+          isFormBubble = $target.parents('.form-bubble').length || $target.hasClass('form-bubble'),
+          isInsideOfCalendar = $target.parents('.fc-content').length || $target.hasClass('fc-content');
 
-      if (!isInsideOfCalendar && !isFormBubble) instance.calendar.fullCalendar('unselect');
+      if (!isInsideOfCalendar && !isFormBubble) self.calendar.fullCalendar('unselect');
     });
 
-    $(selector).delegate('.fc-event','mousedown',function(){ //close currently open form bubbles when user clicks an existing event
+    $(selector).delegate('.fc-event','mousedown', function () { //close currently open form bubbles when user clicks an existing event
       $.fn.formBubble.close();
     });
     
-    $(selector).delegate('.fc-button-agendaWeek, .fc-button-agendaDay', 'click', function(){
+    $(selector).delegate('.fc-button-agendaWeek, .fc-button-agendaDay', 'click', function () {
       resetEventsRangeCounts();
     });
-  };
-
-  instance.loadCalendar = function(){
-    var selector = instance.options.context;
+  }
+  
+  this.loadCalendar = function () {
+    var selector = this.options.context,
+        self = this;
     
-    instance.calendar = $(selector).fullCalendar({
+    this.calendar = $(selector).fullCalendar({
       height: 760,
       weekMode: 'variable',
       header: {
@@ -52,7 +51,7 @@ Calendar = Class.create((function(){
       selectable: true,
       selectHelper: false,
       editable: true,      
-      eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc){
+      eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
         resetEventsRangeCounts();
       },
       eventResize: function(event){
@@ -72,13 +71,13 @@ Calendar = Class.create((function(){
           }
         });   
       },
-      eventRender: function(event, element){
-        var currentView = instance.calendar.fullCalendar('getView').name,
+      eventRender: function (event, element) {
+        var currentView = self.calendar.fullCalendar('getView').name,
             dateFormat = (event.allDay) ? 'MM/dd/yyyy' : 'hh:mmtt',
             startDateLink = $.fullCalendar.formatDate(event.start, dateFormat),
             endDateLink = $.fullCalendar.formatDate(event.end, dateFormat),
-            maxEvents = instance.options.maxEvents,
-            allEvents = instance.calendar.fullCalendar('clientEvents'),
+            maxEvents = self.options.maxEvents,
+            allEvents = self.calendar.fullCalendar('clientEvents'),
             eventDate = $.fullCalendar.formatDate(event.end || event.start,'MM/dd/yy'),
             td, viewMoreButton;
 
@@ -86,15 +85,15 @@ Calendar = Class.create((function(){
         event.startDateLink = startDateLink;
         event.endDateLink = endDateLink;
 
-        if (currentView ==='month'){
+        if (currentView === 'month') {
             doEventsRangeCount(event); //add event quantity to range for event and day
             td = getCellFromDate(eventDate);
 
-            if (td.data('apptCount') > maxEvents.monthView){
-                if (!td.find('.events-view-more').length){
+            if (td.data('apptCount') > maxEvents.monthView) {
+                if (!td.find('.events-view-more').length) {
                     viewMoreButton = $('<div class="events-view-more"><a href="#view-more"><span>View More</span></a></div>')
                     .appendTo(td)
-                    .click(function(){
+                    .click(function () {
                         viewMore(td);
                         return false;
                     });
@@ -106,13 +105,13 @@ Calendar = Class.create((function(){
         
         return true; //renders event
       }
-    });    
-  };
-
+    });
+  }
+  
   function doEventsRangeCount(event){
     var eventStart = event._start,
         eventEnd = event._end || event._start,
-        dateRange = $R(eventStart,eventEnd).collect();
+        dateRange = expandDateRange(eventStart, eventEnd);
 
         console.log(' ');        
         console.log('----------------------------------------------------------------------------------------------------------------------------------------------------');
@@ -121,6 +120,7 @@ Calendar = Class.create((function(){
         console.log('dateRange: ', dateRange);
         console.groupEnd();
         console.log('----------------------------------------------------------------------------------------------------------------------------------------------------');
+
     
     var eventElement = event.element;
     
@@ -135,18 +135,33 @@ Calendar = Class.create((function(){
     });
   }
   
+  function expandDateRange (start, end) {
+    var value = new Date(start.getFullYear(), start.getMonth(), start.getDate()),
+        values = [ new Date(value) ];
+
+    end = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+    
+    //while (value <= end) {
+    while (value < end) {
+      values.push(value);
+      value = new Date(value.getFullYear(), value.getMonth(), value.getDate() + 1);
+    }
+    
+    return values;
+  }
+  
   function resetEventsRangeCounts(){
     $('.fc-view-month td').each(function(i){
         $(this).find('.events-view-more').remove();
-
-        jQuery.removeData(this, "apptCount");
-        jQuery.removeData(this, "appointments");
+        $.removeData(this, "apptCount");
+        $.removeData(this, "appointments");
     });
   }
   
-  function viewMore(day){
+  function viewMore (day) {
     var appointments = day.data('appointments'),
-        elemWidth = day.outerWidth() + 1;
+        elemWidth = day.outerWidth() + 1,
+        self = this;
     
     day.formBubble({
       graphics: {
@@ -168,7 +183,7 @@ Calendar = Class.create((function(){
           bubble.addClass('overlay');
         },
         onClose: function(){
-          instance.calendar.fullCalendar('unselect');
+          self.calendar.fullCalendar('unselect');
         }
       },
       content: function(){
@@ -198,8 +213,8 @@ Calendar = Class.create((function(){
   
   function getCellFromDate(thisDate){ //ties events to actual table cells, and also differentiates between "gray" dates and "black" dates
     var start = $('#calendar').fullCalendar('getView').start,
-            end = $('#calendar').fullCalendar('getView').end,
-            td;
+        end = $('#calendar').fullCalendar('getView').end,
+        td;
 
     thisDate = Date.parse(thisDate);
             
@@ -228,6 +243,5 @@ Calendar = Class.create((function(){
 
     return $('#calendar').fullCalendar('getView').cellDate(cellPos);
   }
-
-  return instance;
-})());
+  
+}).call(Calendar.prototype, jQuery);
