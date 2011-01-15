@@ -21,10 +21,14 @@
   <script src="javascripts/mockjax.mine.js" type="text/javascript"></script>
   
   <script src="javascripts/calendar.js" type="text/javascript"></script>
-  <script src="javascripts/index.js" type="text/javascript"></script>
-  
   <script type="text/javascript">
-    $(document).ready(myCalendar);
+    $(document).ready(function(){
+      var myCalendar = new Calendar('#calendar');
+      
+      mockjax.init();
+      myCalendar.observers();
+      myCalendar.loadCalendar();
+    });
   </script>
   
   </head>

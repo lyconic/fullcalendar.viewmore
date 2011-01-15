@@ -1,5 +1,5 @@
 // "View More Button" Plugin for FullCalendar
-// Version 0.01 Alpha
+// Version 0.02 Alpha
 // Written by Scott Greenfield, A.K.A. jquery.fun@gmail.com
 // Updates and tutorial *will* be found here:  http://www.lyconic.com
 function Calendar (context) {
@@ -13,12 +13,11 @@ function Calendar (context) {
 }
 
 (function ($, undefined) {
-  
-  this.observers = function () {
+  this.observers = function(){
     var selector = this.options.context,
         self = this;
-    
-    $(document).mouseup(function (e) {  //deselect when clicking outside of calendar or formbubble
+
+    $(document).mouseup(function(e){  //deselect when clicking outside of calendar or formbubble
       var $target = $(e.target),
           isFormBubble = $target.parents('.form-bubble').length || $target.hasClass('form-bubble'),
           isInsideOfCalendar = $target.parents('.fc-content').length || $target.hasClass('fc-content');
@@ -26,16 +25,16 @@ function Calendar (context) {
       if (!isInsideOfCalendar && !isFormBubble) self.calendar.fullCalendar('unselect');
     });
 
-    $(selector).delegate('.fc-event','mousedown', function () { //close currently open form bubbles when user clicks an existing event
+    $(selector).delegate('.fc-event','mousedown', function(){ //close currently open form bubbles when user clicks an existing event
       $.fn.formBubble.close();
     });
     
-    $(selector).delegate('.fc-button-agendaWeek, .fc-button-agendaDay', 'click', function () {
+    $(selector).delegate('.fc-button-agendaWeek, .fc-button-agendaDay', 'click', function(){
       resetEventsRangeCounts();
     });
-  }
+  };
   
-  this.loadCalendar = function () {
+  this.loadCalendar = function(){
     var selector = this.options.context,
         self = this;
     
@@ -86,15 +85,15 @@ function Calendar (context) {
         event.endDateLink = endDateLink;
 
         if (currentView === 'month') {
-            doEventsRangeCount(event); //add event quantity to range for event and day
-            td = getCellFromDate(eventDate);
+            doEventsRangeCount(event, self.calendar); //add event quantity to range for event and day
+            td = getCellFromDate(eventDate, self.calendar);
 
             if (td.data('apptCount') > maxEvents.monthView) {
                 if (!td.find('.events-view-more').length) {
                     viewMoreButton = $('<div class="events-view-more"><a href="#view-more"><span>View More</span></a></div>')
                     .appendTo(td)
                     .click(function () {
-                        viewMore(td);
+                        viewMore(td, self.calendar);
                         return false;
                     });
                 }
@@ -106,16 +105,16 @@ function Calendar (context) {
         return true; //renders event
       }
     });
-  }
+  };
   
-  function doEventsRangeCount(event){
+  function doEventsRangeCount(event, calInstance){
     var eventStart = event._start,
         eventEnd = event._end || event._start,
         dateRange = expandDateRange(eventStart, eventEnd),
         eventElement = event.element;
     
     $(dateRange).each(function(i){
-        var td = getCellFromDate($.fullCalendar.formatDate(dateRange[i],'MM/dd/yy')),
+        var td = getCellFromDate($.fullCalendar.formatDate(dateRange[i],'MM/dd/yy'), calInstance),
                 currentCount = (td.data('apptCount') || 0) + 1;
 
         td.data('apptCount', currentCount);
@@ -125,7 +124,7 @@ function Calendar (context) {
     });
   }
   
-  function expandDateRange (start, end) {
+  function expandDateRange(start, end){
     var value = new Date(start.getFullYear(), start.getMonth(), start.getDate()),
         values = [];
 
@@ -147,7 +146,7 @@ function Calendar (context) {
     });
   }
   
-  function viewMore (day) {
+  function viewMore(day, calInstance){
     var appointments = day.data('appointments'),
         elemWidth = day.outerWidth() + 1,
         self = this;
@@ -172,11 +171,11 @@ function Calendar (context) {
           bubble.addClass('overlay');
         },
         onClose: function(){
-          self.calendar.fullCalendar('unselect');
+          calInstance.fullCalendar('unselect');
         }
       },
       content: function(){
-        var startDate =  getDateFromCell(day),
+        var startDate =  getDateFromCell(day, calInstance),
             startDateLabel = startDate.toString("MMM dS"),
             dayValue = parseInt(day.find('.fc-day-number').text()),
             eventList=$('<ul></ul>').prepend('<li><h5>' + startDateLabel + '</h5></li>');
@@ -200,9 +199,9 @@ function Calendar (context) {
     });
   }
   
-  function getCellFromDate(thisDate){ //ties events to actual table cells, and also differentiates between "gray" dates and "black" dates
-    var start = $('#calendar').fullCalendar('getView').start,
-        end = $('#calendar').fullCalendar('getView').end,
+  function getCellFromDate(thisDate, calInstance){ //ties events to actual table cells, and also differentiates between "gray" dates and "black" dates
+    var start = calInstance.fullCalendar('getView').start,
+        end = calInstance.fullCalendar('getView').end,
         td;
 
     thisDate = Date.parse(thisDate);
@@ -224,13 +223,13 @@ function Calendar (context) {
     return td;
   }
   
-  function getDateFromCell(td){
+  function getDateFromCell(td, calInstance){
     var cellPos = {
         row: td.parent().parent().children().index(td.parent()),
         col: td.parent().children().index(td)
     };
 
-    return $('#calendar').fullCalendar('getView').cellDate(cellPos);
+    return calInstance.fullCalendar('getView').cellDate(cellPos);
   }
   
 }).call(Calendar.prototype, jQuery);
