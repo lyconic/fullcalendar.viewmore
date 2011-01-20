@@ -5,33 +5,44 @@
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <title>Fullcalendar - View More Link Example</title>
   
-  <link href="stylesheets/formbubble.css?1291876744" media="screen" rel="stylesheet" type="text/css" />
-  <link href="stylesheets/fullcalendar.css?1291876744" media="screen" rel="stylesheet" type="text/css" />
-  <link href="stylesheets/appointments.css?1292877025" media="screen" rel="stylesheet" type="text/css" />
-  
-  <script src="javascripts/lib/date.js" type="text/javascript"></script>
-  
-  <script src="javascripts/lib/jquery.js" type="text/javascript"></script>
-  <script src="javascripts/ui/jquery-ui-custom.js" type="text/javascript"></script>
-  
-  <script src="javascripts/ui/fullcalendar.js" type="text/javascript"></script>
-  <script src="javascripts/ui/jquery.formbubble.js" type="text/javascript"></script>
-  
-  <script src="javascripts/jquery.mockjax.js" type="text/javascript"></script>
-  <script src="javascripts/mockjax.mine.js" type="text/javascript"></script>
-  
-  <script src="javascripts/calendar.js" type="text/javascript"></script>
-  <script type="text/javascript">
+    <link href="stylesheets/formbubble.css?1291876744" media="screen" rel="stylesheet" type="text/css" />
+    <link href="stylesheets/fullcalendar.css?1291876744" media="screen" rel="stylesheet" type="text/css" />
+    <link href="stylesheets/appointments.css?1292877025" media="screen" rel="stylesheet" type="text/css" />
+    
+    <script src="javascripts/lib/jquery.js" type="text/javascript"></script>
+    <script src="javascripts/ui/jquery-ui-custom.js" type="text/javascript"></script>
+    <script src="javascripts/lib/jquery.mockjax.js" type="text/javascript"></script>
+    <script src="javascripts/mockevents.js" type="text/javascript"></script>
+    <script src="javascripts/ui/fullcalendar.js" type="text/javascript"></script>
+    <script src="javascripts/ui/jquery.formbubble.js" type="text/javascript"></script>
+    <script src="javascripts/lib/date.js" type="text/javascript"></script>
+    <script src="javascripts/fullcalendar.viewmore.js" type="text/javascript"></script>
+    
+    <script type="text/javascript">
     $(document).ready(function(){
-      var myCalendar = new Calendar('#calendar');
-      
-      mockjax.init();
-      myCalendar.observers();
-      myCalendar.loadCalendar();
-    });
-  </script>
-  
+        var myCalendar = new Calendar('#calendar');
+        
+        mockjax.init();
+        myCalendar.observers();
+        myCalendar.loadCalendar();
+
+
+
+var obj = $('#calendar').fullCalendar('getView').calendar.options;
+var fxnToWrap = obj.eventRender;
+
+$.extend(obj, {
+    eventRender: function(event, element){
+        console.log('intercepted');
+        return fxnToWrap(event, element);
+    }
+});
+
+        
+      });
+    </script>
   </head>
+  
   <body>
     <h2>"View More Button" Plugin for <a href="http://arshaw.com/fullcalendar/">FullCalendar</a></h2>
     <p>
@@ -41,7 +52,7 @@
       I was looking at the list of issues for FullCalendar on Google Code, and I realized that, out of neccesity for a company project, I had solved several of them.  Anyway, I figured I'd start with the most "starred" enhancement, the "view more" button.
     </p>
     <p>
-      The reason there are some additional dependencies (such as a subset of the Prototype library), is only because I haven't yet had time to reduce this to a pure jQuery plugin.
+      <del>The reason there are some additional dependencies (such as a subset of the Prototype library), is only because I haven't yet had time to reduce this to a pure jQuery plugin.</del>
     </p>
     <p>
       Tutorial and refactored code coming soon!
