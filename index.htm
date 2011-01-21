@@ -20,26 +20,37 @@
     
     <script type="text/javascript">
     $(document).ready(function(){
-        var myCalendar = new Calendar('#calendar');
+      mockjax.init();
         
-        mockjax.init();
-        myCalendar.observers();
-        myCalendar.loadCalendar();
-
-
-
-var obj = $('#calendar').fullCalendar('getView').calendar.options;
-var fxnToWrap = obj.eventRender;
-
-$.extend(obj, {
-    eventRender: function(event, element){
-        console.log('intercepted');
-        return fxnToWrap(event, element);
-    }
-});
-
-        
+      var thisCal = $('#calendar').fullCalendar({
+        height: 760,
+        weekMode: 'variable',
+        header: {
+          left: 'prev,next month,agendaWeek,agendaDay',
+          center: 'title',
+          right: ''
+        },
+        unselectAuto: false,
+        selectable: true,
+        selectHelper: false,
+        editable: true,      
+        events: function(start, end, callback) {
+          $.ajax({
+            url: '/test/get-events',
+            dataType: 'json',
+            success: function(data){
+              callback(data);
+            }
+          });
+        }
       });
+
+      var myView = new ViewMore('#calendar');
+      myView.extendCallbacks(thisCal);
+      //this should be done in the traditional jQuery fasion... list this...
+      //$(thisCal).fullCalendar('viewMore', opts)
+      
+    });
     </script>
   </head>
   
