@@ -141,6 +141,7 @@ function ViewMore (context) {
         values = [];
 
     end = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+    if (value > end) throw "InvalidRange";
 
     while (value <= end) {
       values.push(value);
