@@ -48,7 +48,7 @@ function ViewMore (context) {
       $.fn.formBubble.close();
     });
     
-    $(selector).delegate('.fc-button-agendaWeek, .fc-button-agendaDay', 'click', function(){
+    $(selector).delegate('.fc-button-prev, .fc-button-next, .fc-button-agendaWeek, .fc-button-agendaDay', 'click', function(){
       resetEventsRangeCounts();
     });
   };
