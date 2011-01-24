@@ -45,10 +45,10 @@
         }
       });
 
-      var myView = new ViewMore('#calendar');
-      myView.extendCallbacks(thisCal);
-      //this should be done in the traditional jQuery fasion... list this...
-      //$(thisCal).fullCalendar('viewMore', opts)
+
+      var myView = new ViewMore(thisCal);
+      thisCal.fullCalendar('limitEvents', { maxEvents: 4 });      
+      
       
     });
     </script>

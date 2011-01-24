@@ -21,102 +21,104 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-function ViewMore (context) {
-  if (!(this instanceof arguments.callee)) return new arguments.callee(context);
-  this.options = {
-    context: context,
-    maxEvents: {
-      monthView: 4
-    }
+function ViewMore (calendar) {
+  if (!(this instanceof arguments.callee)) return new arguments.callee(calendar);
+
+  var self = this;
+
+  self.calendar = calendar;
+
+  self.calendar.data('fullCalendar').limitEvents = function(opts){
+    self.opts = opts;
+    self.observers();
+    self.extendCallbacks();
   }
 }
 
 (function ($, undefined) {
   this.observers = function(){
-    var selector = this.options.context,
-        self = this;
+    var self = this;
 
     $(document).mouseup(function(e){  //deselect when clicking outside of calendar or formbubble
       var $target = $(e.target),
           isFormBubble = $target.parents('.form-bubble').length || $target.hasClass('form-bubble'),
           isInsideOfCalendar = $target.parents('.fc-content').length || $target.hasClass('fc-content');
 
-      if (!isInsideOfCalendar && !isFormBubble) $(selector).fullCalendar('unselect');
+      if (!isInsideOfCalendar && !isFormBubble) self.calendar.fullCalendar('unselect');
     });
 
-    $(selector).delegate('.fc-event','mousedown', function(){ //close currently open form bubbles when user clicks an existing event
+    self.calendar.delegate('.fc-event','mousedown', function(){ //close currently open form bubbles when user clicks an existing event
       $.fn.formBubble.close();
     });
     
-    $(selector).delegate('.fc-button-prev, .fc-button-next, .fc-button-agendaWeek, .fc-button-agendaDay', 'click', function(){
+    self.calendar.delegate('.fc-button-prev, .fc-button-next, .fc-button-agendaWeek, .fc-button-agendaDay', 'click', function(){
       resetEventsRangeCounts();
     });
   };
 
-  this.extendCallbacks = function(calendar){
-    var selector = this.options.context,
-        self = this,
-        opt = $(selector).fullCalendar('getView').calendar.options,
+  this.extendCallbacks = function(){
+    var self = this,
+        opt = self.calendar.fullCalendar('getView').calendar.options,
         _eventRender = opt.eventRender,
         _eventDrop = opt.eventDrop,
         _eventResize = opt.eventResize,
         _viewDisplay = opt.viewDisplay,
         _events = opt.events;
-        
-        self.observers();
-      
-      $.extend(opt, {
-          eventRender: function(event, element){
-              var currentView = calendar.fullCalendar('getView').name,
-                  dateFormat = (event.allDay) ? 'MM/dd/yyyy' : 'hh:mmtt',
-                  startDateLink = $.fullCalendar.formatDate(event.start, dateFormat),
-                  endDateLink = $.fullCalendar.formatDate(event.end, dateFormat),
-                  maxEvents = self.options.maxEvents,
-                  allEvents = calendar.fullCalendar('clientEvents'),
-                  eventDate = $.fullCalendar.formatDate(event.end || event.start,'MM/dd/yy'),
-                  td, viewMoreButton;
-      
-              event.element = element;
-              event.startDateLink = startDateLink;
-              event.endDateLink = endDateLink;
-      
-              if (currentView === 'month') {
-                  doEventsRangeCount(event, calendar); //add event quantity to range for event and day
-                  td = getCellFromDate(eventDate, calendar);
-      
-                  if (td.data('apptCount') > maxEvents.monthView) {
-                      if (!td.find('.events-view-more').length) {
-                          viewMoreButton = $('<div class="events-view-more"><a href="#view-more"><span>View More</span></a></div>')
-                          .appendTo(td)
-                          .click(function () {
-                              viewMore(td, calendar);
-                              return false;
-                          });
-                      }
-                      if ($.isFunction(_eventRender)) _eventRender(event, element);
-                      return false; //prevents event from being rendered
-                  }
-              }
-              if ($.isFunction(_eventRender)) _eventRender(event, element);
-              return true; //renders event
-          },
-          eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
-            resetEventsRangeCounts();
-            if ($.isFunction(_eventDrop)) _eventDrop(event, dayDelta, minuteDelta, allDay, revertFunc);
-          },
-          eventResize: function(event){
-            resetEventsRangeCounts();
-            if ($.isFunction(_eventResize)) _eventResize(event);
-          },
-          viewDisplay: function(view){
-            $.fn.formBubble.close();
-            if ($.isFunction(_viewDisplay)) _viewDisplay(view);
-          },
-          events: function(start, end, callback) {
-            resetEventsRangeCounts();
-            if ($.isFunction(_events)) _events(start, end, callback);
-          }
-      });
+
+console.log('self.opts! ', self.opts);
+
+    $.extend(opt, {
+        eventRender: function(event, element){
+            var currentView = self.calendar.fullCalendar('getView').name,
+                dateFormat = (event.allDay) ? 'MM/dd/yyyy' : 'hh:mmtt',
+                startDateLink = $.fullCalendar.formatDate(event.start, dateFormat),
+                endDateLink = $.fullCalendar.formatDate(event.end, dateFormat),
+                maxEvents = self.opts.maxEvents,
+                allEvents = self.calendar.fullCalendar('clientEvents'),
+                eventDate = $.fullCalendar.formatDate(event.end || event.start,'MM/dd/yy'),
+                td, viewMoreButton;
+    
+            event.element = element;
+            event.startDateLink = startDateLink;
+            event.endDateLink = endDateLink;
+    
+            if (currentView === 'month') {
+                doEventsRangeCount(event, self.calendar); //add event quantity to range for event and day
+                td = getCellFromDate(eventDate, self.calendar);
+    
+                if (td.data('apptCount') > maxEvents) {
+                    if (!td.find('.events-view-more').length) {
+                        viewMoreButton = $('<div class="events-view-more"><a href="#view-more"><span>View More</span></a></div>')
+                        .appendTo(td)
+                        .click(function () {
+                            viewMore(td, self.calendar);
+                            return false;
+                        });
+                    }
+                    if ($.isFunction(_eventRender)) _eventRender(event, element);
+                    return false; //prevents event from being rendered
+                }
+            }
+            if ($.isFunction(_eventRender)) _eventRender(event, element);
+            return true; //renders event
+        },
+        eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+          resetEventsRangeCounts();
+          if ($.isFunction(_eventDrop)) _eventDrop(event, dayDelta, minuteDelta, allDay, revertFunc);
+        },
+        eventResize: function(event){
+          resetEventsRangeCounts();
+          if ($.isFunction(_eventResize)) _eventResize(event);
+        },
+        viewDisplay: function(view){
+          $.fn.formBubble.close();
+          if ($.isFunction(_viewDisplay)) _viewDisplay(view);
+        },
+        events: function(start, end, callback) {
+          resetEventsRangeCounts();
+          if ($.isFunction(_events)) _events(start, end, callback);
+        }
+    });
   };
   
   function doEventsRangeCount(event, calInstance){
