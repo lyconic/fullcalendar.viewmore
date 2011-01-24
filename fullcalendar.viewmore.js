@@ -41,7 +41,7 @@ function ViewMore (context) {
           isFormBubble = $target.parents('.form-bubble').length || $target.hasClass('form-bubble'),
           isInsideOfCalendar = $target.parents('.fc-content').length || $target.hasClass('fc-content');
 
-      if (!isInsideOfCalendar && !isFormBubble) self.calendar.fullCalendar('unselect');
+      if (!isInsideOfCalendar && !isFormBubble) $(selector).fullCalendar('unselect');
     });
 
     $(selector).delegate('.fc-event','mousedown', function(){ //close currently open form bubbles when user clicks an existing event
