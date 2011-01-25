@@ -21,8 +21,16 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+
 (function ($, undefined) {
-  $.fullCalendar.viewMore = function(calendar){
+  $.fn.limitEvents = function(opts){
+    var limit = new $.fn.limitEvents.constructor(this);
+    
+    $.extend({ maxEvents: 4 }, opts)
+    this.fullCalendar('limitEvents', { maxEvents: opts.maxEvents }); 
+  };
+  
+  $.fn.limitEvents.constructor = function(calendar){
     if (!(this instanceof arguments.callee)) return new arguments.callee(calendar);
   
     var self = this;
@@ -34,7 +42,7 @@
       self.observers();
       self.extendCallbacks();
     }
-  };
+  };  
 })(jQuery);
 
 (function ($, undefined) {
@@ -247,4 +255,4 @@
     return calInstance.fullCalendar('getView').cellDate(cellPos);
   }
   
-}).call($.fullCalendar.viewMore.prototype, jQuery);
+}).call($.fn.limitEvents.constructor.prototype, jQuery);
