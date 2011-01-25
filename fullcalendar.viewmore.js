@@ -21,19 +21,21 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-function ViewMore (calendar) {
-  if (!(this instanceof arguments.callee)) return new arguments.callee(calendar);
-
-  var self = this;
-
-  self.calendar = calendar;
-
-  self.calendar.data('fullCalendar').limitEvents = function(opts){
-    self.opts = opts;
-    self.observers();
-    self.extendCallbacks();
-  }
-}
+(function ($, undefined) {
+  $.fullCalendar.viewMore = function(calendar){
+    if (!(this instanceof arguments.callee)) return new arguments.callee(calendar);
+  
+    var self = this;
+  
+    self.calendar = calendar;
+  
+    self.calendar.data('fullCalendar').limitEvents = function(opts){
+      self.opts = opts;
+      self.observers();
+      self.extendCallbacks();
+    }
+  };
+})(jQuery);
 
 (function ($, undefined) {
   this.observers = function(){
@@ -64,8 +66,6 @@ function ViewMore (calendar) {
         _eventResize = opt.eventResize,
         _viewDisplay = opt.viewDisplay,
         _events = opt.events;
-
-console.log('self.opts! ', self.opts);
 
     $.extend(opt, {
         eventRender: function(event, element){
@@ -247,4 +247,4 @@ console.log('self.opts! ', self.opts);
     return calInstance.fullCalendar('getView').cellDate(cellPos);
   }
   
-}).call(ViewMore.prototype, jQuery);
+}).call($.fullCalendar.viewMore.prototype, jQuery);

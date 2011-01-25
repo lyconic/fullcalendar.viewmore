@@ -45,10 +45,8 @@
         }
       });
 
-
-      var myView = new ViewMore(thisCal);
-      thisCal.fullCalendar('limitEvents', { maxEvents: 4 });      
-      
+      new $.fullCalendar.viewMore(thisCal);
+      thisCal.fullCalendar('limitEvents', { maxEvents: 4 });
       
     });
     </script>
