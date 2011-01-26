@@ -25,7 +25,8 @@
 (function ($, undefined) {
   $.fn.limitEvents = function(opts){
     var limit = new $.fn.limitEvents.constructor(this);
-    
+
+    if (opts.constructor === Number) opts = { maxEvents: opts };
     $.extend({ maxEvents: 4 }, opts)
     this.fullCalendar('limitEvents', { maxEvents: opts.maxEvents }); 
   };
