@@ -24,6 +24,7 @@
 
 (function ($, undefined) {
   $.fn.limitEvents = function(opts){
+    if (opts.constructor === Number) opts = { maxEvents: opts };
     return this.each(function(){
       var limit = new $.fn.limitEvents.constructor($(this));
       
