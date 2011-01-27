@@ -20,6 +20,7 @@
     
     <script type="text/javascript">
       $(document).ready(function(){
+        
         mockjax.init();  //mock events (for test purposes)
           
         $('#calendar').fullCalendar({
@@ -36,7 +37,7 @@
           }
         });
   
-        $('#calendar').limitEvents({ maxEvents: 4 });
+        $('#calendar').limitEvents({ maxEvents: 4 });  //initializes event limiter plugin
         
       });
     </script>

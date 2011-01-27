@@ -73,6 +73,7 @@
     color: #000;
     border: solid 1px #cbcbcb !important;
     height: 14px;
+    outline:none;
     font-size: 10px;
     line-height: 14px;
     position: absolute;

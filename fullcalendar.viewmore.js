@@ -24,15 +24,16 @@
 
 (function ($, undefined) {
   $.fn.limitEvents = function(opts){
-    var limit = new $.fn.limitEvents.constructor(this);
-    
-    $.extend({ maxEvents: 4 }, opts)
-    this.fullCalendar('limitEvents', { maxEvents: opts.maxEvents }); 
+    return this.each(function(){
+      var limit = new $.fn.limitEvents.constructor($(this));
+      
+      $.extend({ maxEvents: 4 }, opts);
+      $(this).fullCalendar('limitEvents', { maxEvents: opts.maxEvents });
+    });    
   };
   
   $.fn.limitEvents.constructor = function(calendar){
     if (!(this instanceof arguments.callee)) return new arguments.callee(calendar);
-  
     var self = this;
   
     self.calendar = calendar;
