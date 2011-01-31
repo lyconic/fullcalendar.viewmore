@@ -1,5 +1,7 @@
 # _View More Button_ Plugin for [FullCalendar][0]
 
+![fullCalendar.viewMore screenshot](https://github.com/downloads/lyconic/fullcalendar.viewmore/fullCalendar.viewMore.png)
+
 This code was written by [Scott Greenfield][1] of [Lyconic][2] to address issue [#304][3].
 
 I was looking at the list of issues for FullCalendar on Google Code, and I realized that, 
