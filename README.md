@@ -9,6 +9,7 @@ I'd start with the most "starred" enhancement, the "view more" button.
 ## Getting Started
 
 **Dependencies:**
+
 * [jQuery](http://jquery.com)
 * [jQuery UI](http://jqueryui.com/)
 * [FullCalendar](http://arshaw.com/fullcalendar/)
