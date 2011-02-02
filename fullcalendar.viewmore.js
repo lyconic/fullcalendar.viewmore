@@ -42,6 +42,7 @@
     self.calendar.data('fullCalendar').limitEvents = function(opts){
       self.opts = opts;
       self.observers();
+      self.increaseHeight(25);
       self.extendCallbacks();
     }
   };  
@@ -66,6 +67,24 @@
     self.calendar.delegate('.fc-button-prev, .fc-button-next, .fc-button-agendaWeek, .fc-button-agendaDay', 'click', function(){
       resetEventsRangeCounts();
     });
+    
+    //$(window).resize(function(){ //fired before events are rendered
+    //  resetEventsRangeCounts();
+    //});
+  };
+  
+  this.increaseHeight = function(height, windowResized){
+    var cal = this.calendar,
+          cells =  cal.find('.fc-view-month tbody tr td'),
+          fcDayContent = cells.find('.fc-day-content'),
+          cellHeight, fcDayContentHeight;
+          
+    if (windowResized) fcDayContent.height(1);
+          
+    cellHeight = cells.eq(0).height(),
+    fcDayContentHeight = cellHeight - cells.eq(0).find('.fc-day-number').height();
+    
+    fcDayContent.height(fcDayContentHeight);
   };
 
   this.extendCallbacks = function(){
@@ -75,7 +94,8 @@
         _eventDrop = opt.eventDrop,
         _eventResize = opt.eventResize,
         _viewDisplay = opt.viewDisplay,
-        _events = opt.events;
+        _events = opt.events,
+        _windowResize = opt.windowResize;
 
     $.extend(opt, {
         eventRender: function(event, element){
@@ -127,6 +147,12 @@
         events: function(start, end, callback) {
           resetEventsRangeCounts();
           if ($.isFunction(_events)) _events(start, end, callback);
+        },
+        windowResize: function(view){ //fired AFTER events are rendered
+          if ($.isFunction(_windowResize)) _windowResize(view);
+          self.increaseHeight(25, true);
+          resetEventsRangeCounts();
+          self.calendar.fullCalendar('render'); //manually render to avoid layout bug
         }
     });
   };

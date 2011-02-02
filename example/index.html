@@ -24,7 +24,7 @@
         mockjax.init();  //mock events (for test purposes)
           
         $('#calendar').fullCalendar({
-          height: 760,
+          //height: 760,
           editable: true,      
           events: function(start, end, callback) {
             $.ajax({
@@ -44,6 +44,6 @@
   </head>
   
   <body>
-    <div id='calendar'></div>
+    <div id="calendar" style=""></div>
   </body>
 </html>
