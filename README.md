@@ -1,6 +1,6 @@
 # _View More Button_ Plugin for [FullCalendar][0]
 
-![fullCalendar.viewMore screenshot](https://github.com/downloads/lyconic/fullcalendar.viewmore/fullCalendar.viewMore.png)
+![fullCalendar.viewMore screenshot](http://dl.dropbox.com/u/18579768/limit_events.png)
 
 This code was written by [Scott Greenfield][1] of [Lyconic][2] to address issue [#304][3].
 
