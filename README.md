@@ -23,7 +23,6 @@ I'd start with the most "starred" enhancement, the "view more" button.
 The simplest way of enabling the plugin is to call `limitEvents` on an initialized fullcalendar:
 
     $('#calendar').fullCalendar({
-      height: 760,
       editable: true,      
       events: function(start, end, callback) {
         $.ajax({
@@ -37,6 +36,8 @@ The simplest way of enabling the plugin is to call `limitEvents` on an initializ
     });
 
     $('#calendar').limitEvents(4);
+
+**Note:** for calendars who's dimensions are not static, you may want to at least specify a CSS property of min-width if you find the events to be overlapping when the window is sized to a very small size.
 
 That's it! The API isn't finished, and we will be expanding its capabilities in the future, but for now this does what we need.
 

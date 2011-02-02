@@ -64,13 +64,9 @@
       $.fn.formBubble.close();
     });
     
-    self.calendar.delegate('.fc-button-prev, .fc-button-next, .fc-button-agendaWeek, .fc-button-agendaDay', 'click', function(){
+    self.calendar.delegate('.fc-button-prev, .fc-button-next, .fc-button-agendaWeek, .fc-button-agendaDay, .fc-button-today', 'click', function(){
       resetEventsRangeCounts();
     });
-    
-    //$(window).resize(function(){ //fired before events are rendered
-    //  resetEventsRangeCounts();
-    //});
   };
   
   this.increaseHeight = function(height, windowResized){
