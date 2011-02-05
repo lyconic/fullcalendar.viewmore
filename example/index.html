@@ -24,8 +24,12 @@
         mockjax.init();  //mock events (for test purposes)
           
         $('#calendar').fullCalendar({
-          //height: 760,
-          editable: true,      
+          editable: true,
+          header: {
+                  left: "prev,next today",
+                  center: "title",
+                  right: "month,agendaWeek,agendaDay"
+          },
           events: function(start, end, callback) {
             $.ajax({
               url: '/test/get-events',

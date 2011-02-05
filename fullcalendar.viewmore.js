@@ -21,6 +21,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+//todo should attach reset to changeview method in certain situations
 
 (function ($, undefined) {
   $.fn.limitEvents = function(opts){
@@ -38,7 +39,7 @@
     var self = this;
   
     self.calendar = calendar;
-  
+
     self.calendar.data('fullCalendar').limitEvents = function(opts){
       self.opts = opts;
       self.observers();
@@ -64,7 +65,7 @@
       $.fn.formBubble.close();
     });
     
-    self.calendar.delegate('.fc-button-prev, .fc-button-next, .fc-button-agendaWeek, .fc-button-agendaDay, .fc-button-today', 'click', function(){
+    self.calendar.delegate('.fc-button-prev, .fc-button-next', 'click', function(){
       resetEventsRangeCounts();
     });
   };
@@ -138,6 +139,7 @@
         },
         viewDisplay: function(view){
           $.fn.formBubble.close();
+          if (view.name !== 'month') resetEventsRangeCounts();
           if ($.isFunction(_viewDisplay)) _viewDisplay(view);
         },
         events: function(start, end, callback) {
