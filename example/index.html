@@ -10,7 +10,7 @@
     <link href="stylesheets/viewmore.css" media="screen" rel="stylesheet" type="text/css" />
     
     <script src="javascripts/lib/jquery.js" type="text/javascript"></script>
-    <script src="javascripts/ui/jquery-ui-custom.js" type="text/javascript"></script>
+    <script src="javascripts/ui/jquery-ui-1.8.9.custom.min.js" type="text/javascript"></script>
     <script src="javascripts/lib/date.js" type="text/javascript"></script>
     <script src="javascripts/lib/jquery.mockjax.js" type="text/javascript"></script>  <!-- mock ajax (for test purposes) -->
     <script src="javascripts/mockevents.js" type="text/javascript"></script>  <!-- mock events (for test purposes) -->
@@ -41,6 +41,14 @@
         });
   
         $('#calendar').limitEvents(4);
+        
+        //$('#calendar').limitEvents({
+        //  maxEvents: 3,
+        //  viewMoreClick: function(){
+        //    alert('custom click handler fired');
+        //  }
+        //});
+        
       });
     </script>
   </head>
