@@ -1,144 +1,176 @@
+// References to this file can be deleted, as can the file itself
+// the purpose of this file is to give an example of the "view more" event limiting functionality in action,
+// and in order to do that, I had to provide some mock events.
+
+var prevMonth = Date.today().add(-1).months(),
+      thisMonth = Date.today(),
+      nextMonth = Date.today().add(1).months(),
+      prevMonthNumber = prevMonth.getMonth() + 1,
+      thisMonthNumber = thisMonth.getMonth() + 1,
+      nextMonthNumber = nextMonth.getMonth() + 1;
+
 var mockjax = {
   events: [
     {
       title: "test0",
-      start: "Dec 2 2010 00:00:00",
-      end: "Dec 2 2010 00:00:00",
+      start: prevMonthNumber + "/2/" + prevMonth.getFullYear() + " 00:00:00",
+      end: prevMonthNumber + "/2/" + prevMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test0 description'
     },
     {
       title: "test1",
-      start: "Jan 2 2011 00:00:00",
-      end: "Jan 2 2011 00:00:00",
+      start: thisMonthNumber + "/2/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/2/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test1 description'
     },
     {
       title: "test2",
-      start: "Jan 3 2011 00:00:00",
-      end: "Jan 3 2011 00:00:00",
+      start: thisMonthNumber + "/3/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/3/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test2 description'
     },
     {
       title: "test3",
-      start: "Jan 4 2011 00:00:00",
-      end: "Jan 4 2011 00:00:00",
+      start: thisMonthNumber + "/4/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/4/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test3 description'
     },
     {
       title: "test4",
-      start: "Jan 4 2011 00:00:00",
-      end: "Jan 4 2011 00:00:00",
+      start: thisMonthNumber + "/4/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/4/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test4 description'
     },
     {
       title: "test5",
-      start: "Jan 5 2011 00:00:00",
-      end: "Jan 5 2011 00:00:00",
+      start: thisMonthNumber + "/5/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/5/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test5 description'
     },
     {
       title: "test6",
-      start: "Jan 5 2011 00:00:00",
-      end: "Jan 6 2011 00:00:00",
+      start: thisMonthNumber + "/6/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/6/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test6 description'
     },
     {
       title: "test7",
-      start: "Jan 6 2011 00:00:00",
-      end: "Jan 6 2011 00:00:00",
+      start: thisMonthNumber + "/6/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/6/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test7 description'
     },
     {
       title: "test8",
-      start: "Jan 6 2011 00:00:00",
-      end: "Jan 7 2011 00:00:00",
+      start: thisMonthNumber + "/6/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/7/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test8 description'
     },
     {
       title: "test9",
-      start: "Jan 5 2011 00:00:00",
-      end: "Jan 8 2011 00:00:00",
+      start: thisMonthNumber + "/5/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/8/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test9 description'
     },
     {
       title: "test10",
-      start: "Jan 6 2011 00:00:00",
-      end: "Jan 6 2011 00:00:00",
+      start: thisMonthNumber + "/6/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/6/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test10 description'
     },
     {
       title: "test11",
-      start: "Jan 26 2011 00:00:00",
-      end: "Jan 28 2011 00:00:00",
+      start: thisMonthNumber + "/25/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/26/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test11 description'
     },
     {
       title: "test12",
-      start: "Jan 31 2011 00:00:00",
-      end: "Jan 31 2011 00:00:00",
+      start: thisMonthNumber + "/25/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/27/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
       description: 'test12 description'
     },
     {
-      title: "test5",
-      start: "Feb 14 2011 00:00:00",
-      end: "Feb 16 2011 00:00:00",
+      title: "test13",
+      start: thisMonthNumber + "/24/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/28/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
-      description: 'test5 description'
+      description: 'test13 description'
     },
     {
-      title: "test6",
-      start: "Feb 14 2011 00:00:00",
-      end: "Feb 15 2011 00:00:00",
+      title: "test14",
+      start: thisMonthNumber + "/26/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/26/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
-      description: 'test6 description'
+      description: 'test14 description'
     },
     {
-      title: "test7",
-      start: "Feb 15 2011 00:00:00",
-      end: "Feb 15 2011 00:00:00",
+      title: "test15",
+      start: thisMonthNumber + "/26/" + thisMonth.getFullYear() + " 00:00:00",
+      end: thisMonthNumber + "/27/" + thisMonth.getFullYear() + " 00:00:00",
       allDay: true,
-      description: 'test7 description'
+      description: 'test15 description'
     },
     {
-      title: "test8",
-      start: "Feb 15 2011 00:00:00",
-      end: "Feb 16 2011 00:00:00",
+      title: "test16",
+      start: nextMonthNumber + "/14/" + nextMonth.getFullYear() + " 00:00:00",
+      end: nextMonthNumber + "/16/" + nextMonth.getFullYear() + " 00:00:00",
       allDay: true,
-      description: 'test8 description'
+      description: 'test16 description'
     },
     {
-      title: "test9",
-      start: "Feb 16 2011 00:00:00",
-      end: "Feb 18 2011 00:00:00",
+      title: "test17",
+      start: nextMonthNumber + "/14/" + nextMonth.getFullYear() + " 00:00:00",
+      end: nextMonthNumber + "/15/" + nextMonth.getFullYear() + " 00:00:00",
       allDay: true,
-      description: 'test9 description'
+      description: 'test17 description'
     },
     {
-      title: "test10",
-      start: "Feb 15 2011 00:00:00",
-      end: "Feb 15 2011 00:00:00",
+      title: "test18",
+      start: nextMonthNumber + "/15/" + nextMonth.getFullYear() + " 00:00:00",
+      end: nextMonthNumber + "/15/" + nextMonth.getFullYear() + " 00:00:00",
       allDay: true,
-      description: 'test10 description'
+      description: 'test18 description'
     },
     {
-      title: "test11",
-      start: "Feb 15 2011 00:00:00",
-      end: "Feb 17 2011 00:00:00",
+      title: "test19",
+      start: nextMonthNumber + "/15/" + nextMonth.getFullYear() + " 00:00:00",
+      end: nextMonthNumber + "/16/" + nextMonth.getFullYear() + " 00:00:00",
       allDay: true,
-      description: 'test11 description'
+      description: 'test19 description'
+    },    
+    {
+      title: "test20",
+      start: nextMonthNumber + "/16/" + nextMonth.getFullYear() + " 00:00:00",
+      end: nextMonthNumber + "/18/" + nextMonth.getFullYear() + " 00:00:00",
+      allDay: true,
+      description: 'test20 description'
+    },
+    {
+      title: "test21",
+      start: nextMonthNumber + "/15/" + nextMonth.getFullYear() + " 00:00:00",
+      end: nextMonthNumber + "/15/" + nextMonth.getFullYear() + " 00:00:00",
+      allDay: true,
+      description: 'test21 description'
+    },
+    {
+      title: "test22",
+      start: nextMonthNumber + "/15/" + nextMonth.getFullYear() + " 00:00:00",
+      end: nextMonthNumber + "/17/" + nextMonth.getFullYear() + " 00:00:00",
+      allDay: true,
+      description: 'test22 description'
     },    
   ],
   init: function(){

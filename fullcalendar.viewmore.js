@@ -28,9 +28,9 @@
     if (opts.constructor === Number) opts = { maxEvents: opts };
     return this.each(function(){
       var limit = new $.fn.limitEvents.constructor($(this));
-      
-      $.extend({ maxEvents: 4 }, opts);
-      $(this).fullCalendar('limitEvents', { maxEvents: opts.maxEvents });
+
+      $.extend({ maxEvents: 4 }, opts); //defaults
+      $(this).fullCalendar('limitEvents', opts);
     });    
   };
   
@@ -118,7 +118,11 @@
                         viewMoreButton = $('<div class="events-view-more"><a href="#view-more"><span>View More</span></a></div>')
                         .appendTo(td)
                         .click(function () {
-                            viewMore(td, self.calendar);
+                          var viewMoreClick = self.opts.viewMoreClick;
+                          
+                            if (viewMoreClick && $.isFunction(viewMoreClick)) self.opts.viewMoreClick();
+                            else viewMore(td, self.calendar); //show events in formBubble overlay
+                            
                             return false;
                         });
                     }

@@ -22,7 +22,7 @@ I'd start with the most "starred" enhancement, the "view more" button.
 
 **FullCalendar.viewMore** acts as a wrapper for FullCalendar, so that you can specify a maximum number of events per day. If the events exceed the max, a 'view more' button will be added to the date box.
 
-The simplest way of enabling the plugin is to call `limitEvents` on an initialized fullcalendar:
+The simplest way of enabling the plugin is to call `limitEvents` on an initialized fullcalendar that has events set via a function:
 
     $('#calendar').fullCalendar({
       editable: true,      
@@ -39,7 +39,16 @@ The simplest way of enabling the plugin is to call `limitEvents` on an initializ
 
     $('#calendar').limitEvents(4);
 
-**Note:** for calendars who's dimensions are not static, you may want to at least specify a CSS property of min-width if you find the events to be overlapping when the window is sized to a very small size.
+**Note:**  To use the limitEvents plugin with a custom click event handler, do so like this:
+
+    $('#calendar').limitEvents({
+      maxEvents: 3,
+      viewMoreClick: function(){
+        //your code here
+      }
+    });
+    
+If you do not require the use of the formBubble overlay, and instead would like add a custom viewMoreClick handler, then this plugin becomes no longer dependent on the formBubble plugin.
 
 That's it! The API isn't finished, and we will be expanding its capabilities in the future, but for now this does what we need.
 
