@@ -285,4 +285,4 @@
     return calInstance.fullCalendar('getView').cellDate(cellPos);
   }
   
-}).call($.fn.limitEvents.constructor.prototype, jQuery);
+}).call(jQuery.fn.limitEvents.constructor.prototype, jQuery);
