@@ -70,9 +70,9 @@
     });
   };
   
-  this.increaseHeight = function(height, windowResized){
+  this.increaseHeight = function(height, windowResized, td){
     var cal = this.calendar,
-          cells =  cal.find('.fc-view-month tbody tr td'),
+          cells = td || cal.find('.fc-view-month tbody tr td'),
           fcDayContent = cells.find('.fc-day-content'),
           cellHeight, fcDayContentHeight;
           
@@ -125,6 +125,7 @@
                             
                             return false;
                         });
+                        self.increaseHeight(25, false, td);
                     }
                     if ($.isFunction(_eventRender)) _eventRender(event, element);
                     return false; //prevents event from being rendered
